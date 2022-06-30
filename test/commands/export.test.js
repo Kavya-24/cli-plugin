@@ -13,7 +13,7 @@ describe('Tests for exporting alias', () => {
         .stub(Export, 'storage', new MemoryStorage({}, false))
         .stub(FileUtil, 'storage', new MemoryStorage({}, false))
         .command(['alias:export'])
-        .it('should throw chalk error', async ctx => {
+        .it('should throw chalk error', async _ctx => {
           expect(await FileUtil.storage.load()).to.eql({
 
           })

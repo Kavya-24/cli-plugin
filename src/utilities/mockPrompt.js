@@ -1,14 +1,14 @@
 
 class MockPrompts {
-  constructor (data = '') {
+  constructor(data = '') {
     this.ans = data
   }
 
-  async findSuggestions (exitMessage, userAlias, db) {
+  async findSuggestions(_exitMessage, _userAlias, _db) {
     return this.ans
   }
 
-  constructSuggestions (userAlias, db) {
+  constructSuggestions(_userAlias, _db) {
 
   }
 }

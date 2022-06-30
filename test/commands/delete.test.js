@@ -12,7 +12,7 @@ describe('Tests for deleting alias', () => {
         .stub(Delete, 'storage', new MemoryStorage({}, false))
         .stub(FileUtil, 'storage', new MemoryStorage({}, false))
         .command(['alias:delete', 'hello'])
-        .it('should throw the chalk error', async ctx => {
+        .it('should throw the chalk error', async _ctx => {
           expect(await Delete.storage.load()).to.eql({
 
           })
@@ -41,7 +41,7 @@ describe('Tests for deleting alias', () => {
         .stub(Delete, 'storage', new MemoryStorage({ hello: 'world', hello2: 'world2' }))
         .stub(FileUtil, 'storage', new MemoryStorage({ hello: 'world', hello2: 'world2' }))
         .command(['alias:delete', 'hello'])
-        .it('should delete the alias', async ctx => {
+        .it('should delete the alias', async _ctx => {
           expect(await Delete.storage.load()).to.eql({
             hello2: 'world2'
           })
@@ -72,7 +72,7 @@ describe('Tests for deleting alias', () => {
           .stub(Delete, 'storage', new MemoryStorage({ hello: 'world', hello2: 'world2' }))
           .stub(FileUtil, 'storage', new MemoryStorage({ hello: 'world', hello2: 'world2' }))
           .command(['alias:delete', 'he'])
-          .it('should show the suggestions but accepted', async ctx => {
+          .it('should show the suggestions but accepted', async _ctx => {
             expect(await Delete.storage.load()).to.eql({
               hello2: 'world2'
             })
