@@ -1,4 +1,4 @@
-# @twilio-labs/plugin-alias
+# @Kavya-24/plugin-alias
 
 Access, store and use your favorite twilio aliases with this plugin
 
@@ -31,10 +31,10 @@ See the [Twilio CLI documentation](https://www.twilio.com/docs/twilio-cli/quicks
 
 ### Install the plugin for general use
 
-The following step will install the plugin from [NPM](https://www.npmjs.com/package/@twilio-labs/plugin-alias) and is recommended if you are interested in trying out the [commands](#commands) in the latest release.
+The following step will install the plugin from [NPM](https://www.npmjs.com/package/@Kavya-24/plugin-alias) and is recommended if you are interested in trying out the [commands](#commands) in the latest release.
 
 ```sh-session
-$ twilio plugins:install @twilio-labs/plugin-alias
+$ twilio plugins:install @Kavya-24/plugin-alias
 ```
 
 ### Install the plugin for local development
