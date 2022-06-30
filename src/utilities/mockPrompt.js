@@ -1,5 +1,5 @@
 
-class mockPrompts {
+class MockPrompts {
   constructor (data = '') {
     this.ans = data
   }
@@ -12,4 +12,4 @@ class mockPrompts {
 
   }
 }
-module.exports = mockPrompts
+module.exports = MockPrompts
