@@ -28,9 +28,7 @@ class Use extends AliasBaseCommand {
       const exitMessage = 'Continue without using'
       const result = await Use.prompt.findSuggestions(exitMessage, supposedAlias, db)
 
-      if (result === exitMessage) {
-        // console.warn(`${userAlias} is not a ${this.ctx.config.bin} command.`);
-      } else {
+      if (result !== exitMessage) {
         commandToRun = db[result]
       }
     } else if (existUtil.index >= 0) {
