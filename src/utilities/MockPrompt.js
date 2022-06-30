@@ -9,7 +9,6 @@ class MockPrompts {
   }
 
   constructSuggestions (_userAlias, _db) {
-
   }
 }
 module.exports = MockPrompts
