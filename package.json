@@ -1,7 +1,7 @@
 {
   "name": "plugin-alias",
   "description": "Plugin to manage alias for oclif",
-  "version": "0.0.0-development",
+  "version": "0.0.0-dev",
   "author": "Twilio",
   "bugs": "https://github.com/Kavya-24/plugin-alias/issues",
   "dependencies": {
