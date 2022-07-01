@@ -64,6 +64,9 @@
     "type": "git",
     "url": "https://github.com/Kavya-24/plugin-alias"
   },
+  "release": {
+    "branches": ["main"]
+  },
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
     "posttest": "eslint --ignore-path .gitignore . && npm audit",
