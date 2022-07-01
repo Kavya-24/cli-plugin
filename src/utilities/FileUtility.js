@@ -4,11 +4,11 @@ const chalk = require('chalk')
 const InquirerPrompts = require('./InquirerPrompts')
 
 class FileUtility {
-  constructor (context) {
+  constructor(context) {
     this.ctx = context
   }
 
-  extractAlias (userAlias, aliasFilePath, db) {
+  extractAlias(userAlias, aliasFilePath, db) {
     if (this.pathExists(aliasFilePath)) {
       return this.parseData(userAlias, aliasFilePath, db)
     } else {
@@ -16,11 +16,11 @@ class FileUtility {
     }
   }
 
-  getAliasFilePath (config = this.ctx.config) {
+  getAliasFilePath(config = this.ctx.config) {
     return FileUtility.storage.path(config)
   }
 
-  parseData (userAlias, _aliasFilePath, db) {
+  parseData(userAlias, _aliasFilePath, db) {
     if (db[userAlias]) {
       return { command: db[userAlias], index: 0 }
     } else {
@@ -28,7 +28,7 @@ class FileUtility {
     }
   }
 
-  async updateAddData (userAlias, userCommand, hasFlag, operation, db, aliasFilePath) {
+  async updateAddData(userAlias, userCommand, hasFlag, _operation, db, aliasFilePath) {
     try {
       const existUtil = this.extractAlias(userAlias, aliasFilePath, db)
       const aliasIndex = existUtil.index
@@ -52,7 +52,7 @@ class FileUtility {
     }
   }
 
-  async updateDeleteData (userAlias, userCommand, hasFlag, operation, db, aliasFilePath) {
+  async updateDeleteData(userAlias, _userCommand, _hasFlag, _operation, db, aliasFilePath) {
     try {
       const existUtil = this.extractAlias(userAlias, aliasFilePath, db)
       const aliasIndex = existUtil.index
@@ -79,21 +79,21 @@ class FileUtility {
     }
   }
 
-  setupIncompleteWarning () {
+  setupIncompleteWarning() {
     const AUTOCOMLETE_ALERT = `If you are running alias command for the first time, please run the following setup command to initiate the plugin setup: \n 
       '${chalk.bold('twilio alias:setup')}'`
     return console.warn(chalk.yellowBright(` » ${AUTOCOMLETE_ALERT}`))
   }
 
-  pathExists (path) {
+  pathExists(path) {
     return FileUtility.storage.pathExists(path)
   }
 
-  importPathExists (path) {
+  importPathExists(path) {
     return FileUtility.storage.importPathExists(path)
   }
 
-  createFolderIfDoesNotExists (folderPath, proceed) {
+  createFolderIfDoesNotExists(folderPath, proceed) {
     try {
       if (!this.pathExists(folderPath)) {
         FileUtility.storage.makeDirectory(folderPath)
@@ -108,7 +108,7 @@ class FileUtility {
     }
   }
 
-  copyFileToDestination (sourcePath, destPath, mode) {
+  copyFileToDestination(sourcePath, destPath, mode) {
     try {
       FileUtility.storage.copyFile(sourcePath, destPath, mode)
       return true
@@ -118,7 +118,7 @@ class FileUtility {
     }
   }
 
-  removeDirectory (dir) {
+  removeDirectory(dir) {
     FileUtility.storage.removeDirectory(dir)
   }
 }
