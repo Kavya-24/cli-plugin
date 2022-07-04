@@ -14,7 +14,7 @@ Access, store and use your favorite twilio aliases with this plugin
 
 ## Getting Started
 
-### Install the Twilio CLI
+### Install the Twilio Command Line Interface
 
 Via `npm` or `yarn`:
 
