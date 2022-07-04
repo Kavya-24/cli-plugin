@@ -5,7 +5,7 @@ const FilesystemStorage = require('../../utilities/FileSnapshot/FilesystemStorag
 const InquirerPrompts = require('../../utilities/InquirerPrompts')
 
 class Use extends AliasBaseCommand {
-  async run () {
+  async run() {
     await super.run()
 
     if (this.argv.length <= 0) {
@@ -47,6 +47,6 @@ class Use extends AliasBaseCommand {
 Use.description = 'Use an alias for a Twilio CLI command'
 Use.storage = new FilesystemStorage()
 Use.prompt = new InquirerPrompts()
-Use.aliases = ['use']
+Use.aliases = ['use', ':use']
 
 module.exports = Use
