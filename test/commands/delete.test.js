@@ -2,7 +2,7 @@ const { expect, test } = require('@oclif/test')
 const MemoryStorage = require('../../src/utilities/FileSnapshot/MemoryStorage.js')
 const Delete = require('../../src/commands/alias/delete.js')
 const FileUtil = require('../../src/utilities/FileUtility')
-const MockPrompts = require('../../src/utilities/MockPrompt')
+const MockPrompts = require('../../src/utilities/MockPrompts')
 
 describe('Tests for deleting alias', () => {
   describe('Before Setup', () => {
@@ -41,10 +41,11 @@ describe('Tests for deleting alias', () => {
         .stub(Delete, 'storage', new MemoryStorage({ hello: 'world', hello2: 'world2' }))
         .stub(FileUtil, 'storage', new MemoryStorage({ hello: 'world', hello2: 'world2' }))
         .command(['alias:delete', 'hello'])
-        .it('should delete the alias', async _ctx => {
+        .it('should delete the alias', async ctx => {
           expect(await Delete.storage.load()).to.eql({
             hello2: 'world2'
           })
+          expect(ctx.stdout).to.contain('Successfully deleted alias hello')
         })
     })
 
@@ -72,10 +73,11 @@ describe('Tests for deleting alias', () => {
           .stub(Delete, 'storage', new MemoryStorage({ hello: 'world', hello2: 'world2' }))
           .stub(FileUtil, 'storage', new MemoryStorage({ hello: 'world', hello2: 'world2' }))
           .command(['alias:delete', 'he'])
-          .it('should show the suggestions but accepted', async _ctx => {
+          .it('should show the suggestions but accepted', async ctx => {
             expect(await Delete.storage.load()).to.eql({
               hello2: 'world2'
             })
+            expect(ctx.stdout).to.contain('Successfully deleted alias hello')
           })
       })
     })

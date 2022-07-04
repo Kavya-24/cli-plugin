@@ -13,27 +13,32 @@ class Use extends AliasBaseCommand {
       return
     }
 
-    const supposedAlias = this.argv.shift()
+    let supposedAlias = this.argv.shift()
     const aliasFilePath = new FileUtil(this).getAliasFilePath()
     const db = await Use.storage.load(aliasFilePath)
     const existUtil = new FileUtil(this).extractAlias(supposedAlias, aliasFilePath, db)
 
     let commandToRun = supposedAlias
+    let foundInSuggestions = true
 
     if (existUtil.index === -2) {
-      // Setup incomplete
       new FileUtil(this).setupIncompleteWarning()
       return
     } else if (existUtil.index === -1) {
       const exitMessage = 'Continue without using'
       const result = await Use.prompt.findSuggestions(exitMessage, supposedAlias, db)
 
-      if (result !== exitMessage) {
+      if (result === exitMessage) {
+        foundInSuggestions = false
+      } else {
         commandToRun = db[result]
+        supposedAlias = result
       }
     } else if (existUtil.index >= 0) {
       commandToRun = existUtil.command // + this.argv
     }
+
+    if (foundInSuggestions) { console.log(`Using the command ${commandToRun} from alias ${supposedAlias}`) }
 
     new CommandUtil(this).runCommand(commandToRun, this.argv)
   }

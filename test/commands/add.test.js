@@ -53,10 +53,11 @@ describe('Tests for adding alias', () => {
         .stub(Add, 'storage', new MemoryStorage({}))
         .stub(FileUtil, 'storage', new MemoryStorage({}))
         .command(['alias:add', 'hello', 'world'])
-        .it('should add the alias empty', async _ctx => {
+        .it('should add the alias empty', async ctx => {
           expect(await Add.storage.load()).to.eql({
             hello: 'world'
           })
+          expect(ctx.stdout).to.contain('Successfully created alias hello for world')
         })
     })
 
@@ -66,11 +67,12 @@ describe('Tests for adding alias', () => {
         .stub(Add, 'storage', new MemoryStorage({ aliasName: 'aliasCommand' }))
         .stub(FileUtil, 'storage', new MemoryStorage({ aliasName: 'aliasCommand' }))
         .command(['alias:add', 'hello', 'world'])
-        .it('should add the alias', async _ctx => {
+        .it('should add the alias', async ctx => {
           expect(await Add.storage.load()).to.eql({
             aliasName: 'aliasCommand',
             hello: 'world'
           })
+          expect(ctx.stdout).to.contain('Successfully created alias hello for world')
         })
     })
 
@@ -94,10 +96,11 @@ describe('Tests for adding alias', () => {
         .stub(Add, 'storage', new MemoryStorage({ hello: 'name' }))
         .stub(FileUtil, 'storage', new MemoryStorage({ hello: 'name' }))
         .command(['alias:add', 'hello', 'world', '-f'])
-        .it('should add the alias forcefully', async _ctx => {
+        .it('should add the alias forcefully', async ctx => {
           expect(await Add.storage.load()).to.eql({
             hello: 'world'
           })
+          expect(ctx.stdout).to.contain('Successfully created alias hello for world')
         })
     })
 

@@ -3,7 +3,7 @@ const MemoryStorage = require('../../src/utilities/FileSnapshot/MemoryStorage.js
 const List = require('../../src/commands/alias/list.js')
 const Use = require('../../src/commands/alias/use.js')
 const FileUtil = require('../../src/utilities/FileUtility')
-const MockPrompts = require('../../src/utilities/MockPrompt')
+const MockPrompts = require('../../src/utilities/MockPrompts')
 
 describe('Tests for using alias', () => {
   describe('Before Setup', () => {
@@ -14,7 +14,7 @@ describe('Tests for using alias', () => {
         .stub(List, 'storage', new MemoryStorage({}, false))
         .stub(FileUtil, 'storage', new MemoryStorage({}, false))
         .command(['alias:use', 'alist'])
-        .it('should throw the chalk error', async _ctx => {
+        .it('should throw the chalk error', async ctx => {
           expect(await Use.storage.load()).to.eql({
           })
         })
@@ -63,6 +63,7 @@ describe('Tests for using alias', () => {
           expect(await Use.storage.load()).to.eql({
             alist: 'alias:list'
           })
+          expect(ctx.stdout).to.contain('Using the command alias:list from alias alist')
           expect(ctx.stdout).to.contain('Alias\tCommand\nalist\talias:list')
         })
     })
@@ -78,6 +79,7 @@ describe('Tests for using alias', () => {
           expect(await Use.storage.load()).to.eql({
             alist: 'alias:list'
           })
+          expect(ctx.stdout).to.contain('Using the command alias:list from alias alist')
           expect(ctx.stdout).to.contain('Alias\tCommand\nalist\talias:list')
         })
     })
@@ -111,6 +113,7 @@ describe('Tests for using alias', () => {
               hello: 'world',
               hello2: 'world2'
             })
+            expect(ctx.stdout).to.contain('Using the command world from alias hello')
             expect(ctx.stdout).to.contain('command world is not found')
           })
       })
