@@ -5,7 +5,7 @@ const FilesystemStorage = require('../../utilities/FileSnapshot/FilesystemStorag
 const InquirerPrompts = require('../../utilities/InquirerPrompts')
 
 class Use extends AliasBaseCommand {
-  async run() {
+  async run () {
     await super.run()
 
     if (this.argv.length <= 0) {
