@@ -34,7 +34,10 @@ class FileUtility {
       const aliasIndex = existUtil.index
       let added = false
 
-      if (aliasIndex === -1) {
+      // This will never run for snapshot based memory reference
+      if (aliasIndex === -2) {
+        return this.setupIncompleteWarning()
+      } else if (aliasIndex === -1) {
         // no alias exists. Add is operation is Add, else show error for delete
         db[userAlias] = userCommand
         added = true
@@ -65,7 +68,10 @@ class FileUtility {
 
       let deleted = false
 
-      if (aliasIndex === -1) {
+      // This will never run for snapshot based memory reference
+      if (aliasIndex === -2) {
+        return this.setupIncompleteWarning()
+      } else if (aliasIndex === -1) {
         // no alias exists. Add is operation is Add, else show error for delete
         const exitMessage = 'Continue without deleting'
         const result = await FileUtility.prompt.findSuggestions(exitMessage, userAlias, db)
