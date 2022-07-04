@@ -1,79 +1,151 @@
 const { expect, test } = require('@oclif/test')
 const MemoryStorage = require('../../src/utilities/FileSnapshot/MemoryStorage.js')
-const List = require('../../src/commands/alias/list.js')
+const Import = require('../../src/commands/alias/import')
 const FileUtil = require('../../src/utilities/FileUtility')
+const fs = require('fs')
 
-describe('Tests for listing alias', () => {
+describe('Tests for importing alias', () => {
   describe('Before Setup', () => {
-    describe('Listing an empty list', () => {
+    describe('Importing an empty file', () => {
+      const filename = 'dataexport1.json'
+
       test
         .stdout()
-        .stub(List, 'storage', new MemoryStorage({}, false))
+        .stub(Import, 'storage', new MemoryStorage({}, false))
         .stub(FileUtil, 'storage', new MemoryStorage({}, false))
-        .command(['alias:list'])
-        .it('should throw the chalk error', async _ctx => {
-          expect(await List.storage.load()).to.eql({
-
+        .command(['alias:import', `${filename}`])
+        .it('should throw chalk error', async _ctx => {
+          expect(await FileUtil.storage.load()).to.eql({
           })
         })
     })
 
-    describe('Listing with extra arguments', () => {
+    describe('Importing with invalid file path', () => {
       test
         .stdout()
-        .stub(List, 'storage', new MemoryStorage({}, false))
-        .stub(FileUtil, 'storage', new MemoryStorage({}, false))
-        .command(['alias:list', 'hello'])
-        .it('should throw warning for extra argument', async ctx => {
-          expect(await List.storage.load()).to.eql({
+        .stub(Import, 'storage', new MemoryStorage({}, false, false))
+        .stub(FileUtil, 'storage', new MemoryStorage({}, false, false))
+        .command(['alias:import', 'hsagfhb.sahdg'])
+        .it('should throw error that file does not exist', async ctx => {
+          expect(await FileUtil.storage.load()).to.eql({
           })
-          expect(ctx.stdout).to.contain("Invalid argument 'hello' provided")
+          expect(ctx.stdout).to.contain('alias file does not exist at the specified path')
+        })
+    })
+
+    describe('Importing without file path', () => {
+      test
+        .stdout()
+        .stub(Import, 'storage', new MemoryStorage({}, false))
+        .stub(FileUtil, 'storage', new MemoryStorage({}, false))
+        .command(['alias:import'])
+        .it('should throw error that file path not provided', async ctx => {
+          expect(await FileUtil.storage.load()).to.eql({
+          })
+          expect(ctx.stdout).to.contain('please add the path of the alias.json file')
         })
     })
   })
 
   describe('After Setup', () => {
-    describe('Listing a filled list', () => {
-      test
-        .stdout()
-        .stub(List, 'storage', new MemoryStorage({ hello: 'world', alist: 'alias:list' }))
-        .stub(FileUtil, 'storage', new MemoryStorage({ hello: 'world', alist: 'alias:list' }))
-        .command(['alias:list'])
-        .it('should list the filled aliases list', async ctx => {
-          expect(await List.storage.load()).to.eql({
-            hello: 'world',
-            alist: 'alias:list'
-          })
-          expect(ctx.stdout).to.contain('Alias\tCommand\nhello\tworld\nalist\talias:list')
-        })
-    })
+    describe('Importing an empty file', () => {
+      const filename = 'dataexport1.json'
+      const path = process.cwd() + '/' + filename
 
-    describe('Listing an empty list', () => {
+      before(async function () {
+        const db = {
+        }
+
+        fs.writeFile(path, JSON.stringify(db), err => {
+          if (err) {
+            console.log(err)
+          }
+        })
+      })
+
       test
         .stdout()
-        .stub(List, 'storage', new MemoryStorage({}))
+        .stub(Import, 'storage', new MemoryStorage({}))
         .stub(FileUtil, 'storage', new MemoryStorage({}))
-        .command(['alias:list'])
-        .it('should list the empty aliases list', async ctx => {
-          expect(await List.storage.load()).to.eql({
+        .command(['alias:import', `${filename}`])
+        .it('import empty file', async ctx => {
+          expect(await FileUtil.storage.load()).to.eql({
 
           })
-          expect(ctx.stdout).to.contain('Alias\tCommand')
+          expect(ctx.stdout).to.contain(`Successfully exported aliases to the file ${filename}`)
+        })
+
+      after(async function () {
+        fs.unlink(path, err => {
+          if (err) {
+            console.log(err)
+          }
+        })
+      })
+    })
+
+    describe('Importing file with data', () => {
+      const filename = 'dataexport2.json'
+      const path = process.cwd() + '/' + filename
+
+      before(async function () {
+        const db = {
+          alist: 'alias:list',
+          hello: 'world'
+        }
+
+        fs.writeFile(path, JSON.stringify(db), err => {
+          if (err) {
+            console.log(err)
+          }
+        })
+      })
+
+      test
+        .stdout()
+        .stub(Import, 'storage', new MemoryStorage({}))
+        .stub(FileUtil, 'storage', new MemoryStorage({}))
+        .command(['alias:import', `${filename}`])
+        .it('import file with data', async ctx => {
+          expect(await FileUtil.storage.load()).to.eql({
+            alist: 'alias:list',
+            hello: 'world'
+          })
+          expect(ctx.stdout).to.contain(`Successfully exported aliases to the file ${filename}`)
+        })
+
+      after(async function () {
+        fs.unlink(path, err => {
+          if (err) {
+            console.log(err)
+          }
+        })
+      })
+    })
+
+    describe('Importing with invalid file path', () => {
+      test
+        .stdout()
+        .stub(Import, 'storage', new MemoryStorage({}, true, false))
+        .stub(FileUtil, 'storage', new MemoryStorage({}, true, false))
+        .command(['alias:import', 'hsagfhb.sahdg'])
+        .it('should throw error that file does not exist', async ctx => {
+          expect(await FileUtil.storage.load()).to.eql({
+          })
+          expect(ctx.stdout).to.contain('alias file does not exist at the specified path')
         })
     })
 
-    describe('Listing with extra arguments', () => {
+    describe('Importing without file path', () => {
       test
         .stdout()
-        .stub(List, 'storage', new MemoryStorage({ hello: 'world', alist: 'alias:list' }))
-        .stub(FileUtil, 'storage', new MemoryStorage({ hello: 'world', alist: 'alias:list' }))
-        .command(['alias:list', 'hello'])
-        .it('should throw warning for extra argument', async ctx => {
-          expect(await List.storage.load()).to.eql({
-            hello: 'world',
-            alist: 'alias:list'
+        .stub(Import, 'storage', new MemoryStorage({}))
+        .stub(FileUtil, 'storage', new MemoryStorage({}))
+        .command(['alias:import'])
+        .it('should throw error that file path not provided', async ctx => {
+          expect(await FileUtil.storage.load()).to.eql({
           })
-          expect(ctx.stdout).to.contain("Invalid argument 'hello' provided")
+          expect(ctx.stdout).to.contain('please add the path of the alias.json file')
         })
     })
   })

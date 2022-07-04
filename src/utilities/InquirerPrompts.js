@@ -44,7 +44,9 @@ class InquirerPrompts {
       }
     })
 
-    return commandIDs.slice(0, numOfSuggestions)
+    const suggestions = commandIDs.slice(0, numOfSuggestions)
+
+    return suggestions
   }
 }
 module.exports = InquirerPrompts

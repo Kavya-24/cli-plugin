@@ -23,7 +23,6 @@ class FilesystemStorage {
     const aliasFolderName = 'alias'
     const aliasFolderPath = dataDirectory + '/' + aliasFolderName
     const aliasFileName = 'data.json'
-
     return aliasFolderPath + '/' + aliasFileName
   }
 
